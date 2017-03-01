@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.myapp.service.mapper</a> &gt; <span class="el_source">UserMapperImpl.java</span></div><h1>UserMapperImpl.java</h1><pre class="source lang-java linenums">package com.mycompany.myapp.service.mapper;
+
+import com.mycompany.myapp.domain.Authority;
+import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.service.dto.UserDTO;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2017-02-25T20:55:51-0800&quot;,
+    comments = &quot;version: 1.1.0.Final, compiler: javac, environment: Java 1.8.0_121 (Oracle Corporation)&quot;
+)
+@Component
+<span class="fc" id="L18">public class UserMapperImpl implements UserMapper {</span>
+
+    @Override
+    public UserDTO userToUserDTO(User user) {
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        if ( user == null ) {</span>
+<span class="nc" id="L23">            return null;</span>
+        }
+
+<span class="nc" id="L26">        UserDTO userDTO = new UserDTO();</span>
+
+<span class="nc" id="L28">        userDTO.setId( user.getId() );</span>
+<span class="nc" id="L29">        userDTO.setLogin( user.getLogin() );</span>
+<span class="nc" id="L30">        userDTO.setLastModifiedDate( user.getLastModifiedDate() );</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if ( userDTO.getAuthorities() != null ) {</span>
+<span class="nc" id="L32">            Set&lt;String&gt; set = stringsFromAuthorities( user.getAuthorities() );</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if ( set != null ) {</span>
+<span class="nc" id="L34">                userDTO.getAuthorities().addAll( set );</span>
+            }
+        }
+
+<span class="nc" id="L38">        return userDTO;</span>
+    }
+
+    @Override
+    public List&lt;UserDTO&gt; usersToUserDTOs(List&lt;User&gt; users) {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if ( users == null ) {</span>
+<span class="nc" id="L44">            return null;</span>
+        }
+
+<span class="nc" id="L47">        List&lt;UserDTO&gt; list = new ArrayList&lt;UserDTO&gt;();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for ( User user : users ) {</span>
+<span class="nc" id="L49">            list.add( userToUserDTO( user ) );</span>
+<span class="nc" id="L50">        }</span>
+
+<span class="nc" id="L52">        return list;</span>
+    }
+
+    @Override
+    public User userDTOToUser(UserDTO userDTO) {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if ( userDTO == null ) {</span>
+<span class="nc" id="L58">            return null;</span>
+        }
+
+<span class="nc" id="L61">        User user = new User();</span>
+
+<span class="nc" id="L63">        user.setId( userDTO.getId() );</span>
+<span class="nc" id="L64">        user.setLogin( userDTO.getLogin() );</span>
+<span class="nc" id="L65">        user.setFirstName( userDTO.getFirstName() );</span>
+<span class="nc" id="L66">        user.setLastName( userDTO.getLastName() );</span>
+<span class="nc" id="L67">        user.setEmail( userDTO.getEmail() );</span>
+<span class="nc" id="L68">        user.setImageUrl( userDTO.getImageUrl() );</span>
+<span class="nc" id="L69">        user.setActivated( userDTO.isActivated() );</span>
+<span class="nc" id="L70">        user.setLangKey( userDTO.getLangKey() );</span>
+<span class="nc" id="L71">        Set&lt;Authority&gt; set = authoritiesFromStrings( userDTO.getAuthorities() );</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if ( set != null ) {</span>
+<span class="nc" id="L73">            user.setAuthorities( set );</span>
+        }
+
+<span class="nc" id="L76">        return user;</span>
+    }
+
+    @Override
+    public List&lt;User&gt; userDTOsToUsers(List&lt;UserDTO&gt; userDTOs) {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if ( userDTOs == null ) {</span>
+<span class="nc" id="L82">            return null;</span>
+        }
+
+<span class="nc" id="L85">        List&lt;User&gt; list = new ArrayList&lt;User&gt;();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for ( UserDTO userDTO : userDTOs ) {</span>
+<span class="nc" id="L87">            list.add( userDTOToUser( userDTO ) );</span>
+<span class="nc" id="L88">        }</span>
+
+<span class="nc" id="L90">        return list;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

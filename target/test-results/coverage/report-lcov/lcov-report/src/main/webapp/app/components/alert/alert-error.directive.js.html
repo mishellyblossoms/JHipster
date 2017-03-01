@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src\main\webapp\app\components\alert\alert-error.directive.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../../../index.html">all files</a> / <a href="index.html">src/main/webapp/app/components/alert/</a> alert-error.directive.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.63% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>6/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">16.67% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.63% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>6/41</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function() {
+    'use strict';
+&nbsp;
+    var jhiAlertError = {
+        template: '&lt;div class="alerts" ng-cloak="" role="alert"&gt;' +
+                        '&lt;div ng-repeat="alert in $ctrl.alerts" ng-class="[alert.position, {\'toast\': alert.toast}]"&gt;' +
+                            '&lt;uib-alert ng-cloak="" type="{{alert.type}}" close="alert.close($ctrl.alerts)"&gt;&lt;pre&gt;{{ alert.msg }}&lt;/pre&gt;&lt;/uib-alert&gt;' +
+                        '&lt;/div&gt;' +
+                  '&lt;/div&gt;',
+        controller: jhiAlertErrorController
+    };
+&nbsp;
+    angular
+        .module('testApp')
+        .component('jhiAlertError', jhiAlertError);
+&nbsp;
+    jhiAlertErrorController.$inject = ['$scope', 'AlertService', '$rootScope'];
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function jhiAlertErrorController ($scope, AlertService, $rootScope) {</span>
+<span class="cstat-no" title="statement not covered" >        var vm = this;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        vm.alerts = [];</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function addErrorAlert (message, key, data) {</span>
+<span class="cstat-no" title="statement not covered" >            vm.alerts.push(</span>
+                AlertService.add(
+                    {
+                        type: 'danger',
+                        msg: message,
+                        timeout: 5000,
+                        toast: AlertService.isToast(),
+                        scoped: true
+                    },
+                    vm.alerts
+                )
+            );
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        var cleanHttpErrorListener = $rootScope.$on('testApp.httpError', <span class="fstat-no" title="function not covered" >function (event, httpResponse) {</span></span>
+<span class="cstat-no" title="statement not covered" >            var i;</span>
+<span class="cstat-no" title="statement not covered" >            event.stopPropagation();</span>
+<span class="cstat-no" title="statement not covered" >            switch (httpResponse.status) {</span>
+            // connection refused, server not reachable
+            case 0:
+<span class="cstat-no" title="statement not covered" >                addErrorAlert('Server not reachable','error.server.not.reachable');</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case 400:
+<span class="cstat-no" title="statement not covered" >                var headers = Object.keys(httpResponse.headers()).filter(<span class="fstat-no" title="function not covered" >function (header) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    return header.indexOf('app-error', header.length - 'app-error'.length) !== -1 || header.indexOf('app-params', header.length - 'app-params'.length) !== -1;</span>
+                }).sort();
+<span class="cstat-no" title="statement not covered" >                var errorHeader = httpResponse.headers(headers[0]);</span>
+<span class="cstat-no" title="statement not covered" >                var entityKey = httpResponse.headers(headers[1]);</span>
+<span class="cstat-no" title="statement not covered" >                if (errorHeader) {</span>
+<span class="cstat-no" title="statement not covered" >                    var entityName = entityKey;</span>
+<span class="cstat-no" title="statement not covered" >                    addErrorAlert(errorHeader, errorHeader, {entityName: entityName});</span>
+                } else <span class="cstat-no" title="statement not covered" >if (httpResponse.data &amp;&amp; httpResponse.data.fieldErrors) {</span>
+<span class="cstat-no" title="statement not covered" >                    for (i = 0; i &lt; httpResponse.data.fieldErrors.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                        var fieldError = httpResponse.data.fieldErrors[i];</span>
+                        // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
+<span class="cstat-no" title="statement not covered" >                        var convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');</span>
+<span class="cstat-no" title="statement not covered" >                        var fieldName = convertedField.charAt(0).toUpperCase() + convertedField.slice(1);</span>
+<span class="cstat-no" title="statement not covered" >                        addErrorAlert('Field ' + fieldName + ' cannot be empty', 'error.' + fieldError.message, {fieldName: fieldName});</span>
+                    }
+                } else <span class="cstat-no" title="statement not covered" >if (httpResponse.data &amp;&amp; httpResponse.data.message) {</span>
+<span class="cstat-no" title="statement not covered" >                    addErrorAlert(httpResponse.data.message, httpResponse.data.message, httpResponse.data);</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    addErrorAlert(httpResponse.data);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case 404:
+<span class="cstat-no" title="statement not covered" >                addErrorAlert('Not found','error.url.not.found');</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            default:
+<span class="cstat-no" title="statement not covered" >                if (httpResponse.data &amp;&amp; httpResponse.data.message) {</span>
+<span class="cstat-no" title="statement not covered" >                    addErrorAlert(httpResponse.data.message);</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    addErrorAlert(angular.toJson(httpResponse));</span>
+                }
+            }
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        $scope.$on('$destroy', <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if(angular.isDefined(cleanHttpErrorListener) &amp;&amp; cleanHttpErrorListener !== null){</span>
+<span class="cstat-no" title="statement not covered" >                cleanHttpErrorListener();</span>
+<span class="cstat-no" title="statement not covered" >                vm.alerts = [];</span>
+            }
+        });
+    }
+})();
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Feb 25 2017 20:57:37 GMT-0800 (Pacific Standard Time)
+</div>
+</div>
+<script src="../../../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../../../sorter.js"></script>
+</body>
+</html>

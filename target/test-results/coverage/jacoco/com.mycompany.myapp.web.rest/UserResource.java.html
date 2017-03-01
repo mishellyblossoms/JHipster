@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.myapp.web.rest</a> &gt; <span class="el_source">UserResource.java</span></div><h1>UserResource.java</h1><pre class="source lang-java linenums">package com.mycompany.myapp.web.rest;
+
+import com.mycompany.myapp.config.Constants;
+import com.codahale.metrics.annotation.Timed;
+import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.AuthoritiesConstants;
+import com.mycompany.myapp.service.MailService;
+import com.mycompany.myapp.service.UserService;
+import com.mycompany.myapp.service.dto.UserDTO;
+import com.mycompany.myapp.web.rest.vm.ManagedUserVM;
+import com.mycompany.myapp.web.rest.util.HeaderUtil;
+import com.mycompany.myapp.web.rest.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
+
+/**
+ * REST controller for managing users.
+ *
+ * &lt;p&gt;This class accesses the User entity, and needs to fetch its collection of authorities.&lt;/p&gt;
+ * &lt;p&gt;
+ * For a normal use-case, it would be better to have an eager relationship between User and Authority,
+ * and send everything to the client side: there would be no View Model and DTO, a lot less code, and an outer-join
+ * which would be good for performance.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * We use a View Model and a DTO for 3 reasons:
+ * &lt;ul&gt;
+ * &lt;li&gt;We want to keep a lazy association between the user and the authorities, because people will
+ * quite often do relationships with the user, and we don't want them to get the authorities all
+ * the time for nothing (for performance reasons). This is the #1 goal: we should not impact our users'
+ * application because of this use-case.&lt;/li&gt;
+ * &lt;li&gt; Not having an outer join causes n+1 requests to the database. This is not a real issue as
+ * we have by default a second-level cache. This means on the first HTTP call we do the n+1 requests,
+ * but then all authorities come from the cache, so in fact it's much better than doing an outer join
+ * (which will get lots of data from the database, for each HTTP call).&lt;/li&gt;
+ * &lt;li&gt; As this manages users, for security reasons, we'd rather have a DTO layer.&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;Another option would be to have a specific JPA entity graph to handle this case.&lt;/p&gt;
+ */
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class UserResource {
+
+<span class="fc" id="L59">    private final Logger log = LoggerFactory.getLogger(UserResource.class);</span>
+
+    private static final String ENTITY_NAME = &quot;userManagement&quot;;
+
+    private final UserRepository userRepository;
+
+    private final MailService mailService;
+
+    private final UserService userService;
+
+    public UserResource(UserRepository userRepository, MailService mailService,
+<span class="fc" id="L70">            UserService userService) {</span>
+
+<span class="fc" id="L72">        this.userRepository = userRepository;</span>
+<span class="fc" id="L73">        this.mailService = mailService;</span>
+<span class="fc" id="L74">        this.userService = userService;</span>
+<span class="fc" id="L75">    }</span>
+
+    /**
+     * POST  /users  : Creates a new user.
+     * &lt;p&gt;
+     * Creates a new user if the login and email are not already used, and sends an
+     * mail with an activation link.
+     * The user needs to be activated on creation.
+     * &lt;/p&gt;
+     *
+     * @param managedUserVM the user to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping(&quot;/users&quot;)
+    @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
+    public ResponseEntity createUser(@RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
+<span class="nc" id="L93">        log.debug(&quot;REST request to save User : {}&quot;, managedUserVM);</span>
+
+        //Lowercase the user login before comparing with database
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {</span>
+<span class="nc" id="L97">            return ResponseEntity.badRequest()</span>
+<span class="nc" id="L98">                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, &quot;userexists&quot;, &quot;Login already in use&quot;))</span>
+<span class="nc" id="L99">                .body(null);</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        } else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {</span>
+<span class="nc" id="L101">            return ResponseEntity.badRequest()</span>
+<span class="nc" id="L102">                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, &quot;emailexists&quot;, &quot;Email already in use&quot;))</span>
+<span class="nc" id="L103">                .body(null);</span>
+        } else {
+<span class="nc" id="L105">            User newUser = userService.createUser(managedUserVM);</span>
+<span class="nc" id="L106">            mailService.sendCreationEmail(newUser);</span>
+<span class="nc" id="L107">            return ResponseEntity.created(new URI(&quot;/api/users/&quot; + newUser.getLogin()))</span>
+<span class="nc" id="L108">                .headers(HeaderUtil.createAlert( &quot;A user is created with identifier &quot; + newUser.getLogin(), newUser.getLogin()))</span>
+<span class="nc" id="L109">                .body(newUser);</span>
+        }
+    }
+
+    /**
+     * PUT  /users : Updates an existing User.
+     *
+     * @param managedUserVM the user to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated user,
+     * or with status 400 (Bad Request) if the login or email is already in use,
+     * or with status 500 (Internal Server Error) if the user couldn't be updated
+     */
+    @PutMapping(&quot;/users&quot;)
+    @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
+    public ResponseEntity&lt;UserDTO&gt; updateUser(@RequestBody ManagedUserVM managedUserVM) {
+<span class="nc" id="L125">        log.debug(&quot;REST request to update User : {}&quot;, managedUserVM);</span>
+<span class="nc" id="L126">        Optional&lt;User&gt; existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">        if (existingUser.isPresent() &amp;&amp; (!existingUser.get().getId().equals(managedUserVM.getId()))) {</span>
+<span class="nc" id="L128">            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, &quot;emailexists&quot;, &quot;E-mail already in use&quot;)).body(null);</span>
+        }
+<span class="nc" id="L130">        existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">        if (existingUser.isPresent() &amp;&amp; (!existingUser.get().getId().equals(managedUserVM.getId()))) {</span>
+<span class="nc" id="L132">            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, &quot;userexists&quot;, &quot;Login already in use&quot;)).body(null);</span>
+        }
+<span class="nc" id="L134">        Optional&lt;UserDTO&gt; updatedUser = userService.updateUser(managedUserVM);</span>
+
+<span class="nc" id="L136">        return ResponseUtil.wrapOrNotFound(updatedUser,</span>
+<span class="nc" id="L137">            HeaderUtil.createAlert(&quot;A user is updated with identifier &quot; + managedUserVM.getLogin(), managedUserVM.getLogin()));</span>
+    }
+
+    /**
+     * GET  /users : get all users.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and with body all users
+     * @throws URISyntaxException if the pagination headers couldn't be generated
+     */
+    @GetMapping(&quot;/users&quot;)
+    @Timed
+    public ResponseEntity&lt;List&lt;UserDTO&gt;&gt; getAllUsers(@ApiParam Pageable pageable)
+        throws URISyntaxException {
+<span class="nc" id="L151">        final Page&lt;UserDTO&gt; page = userService.getAllManagedUsers(pageable);</span>
+<span class="nc" id="L152">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, &quot;/api/users&quot;);</span>
+<span class="nc" id="L153">        return new ResponseEntity&lt;&gt;(page.getContent(), headers, HttpStatus.OK);</span>
+    }
+
+    /**
+     * GET  /users/:login : get the &quot;login&quot; user.
+     *
+     * @param login the login of the user to find
+     * @return the ResponseEntity with status 200 (OK) and with body the &quot;login&quot; user, or with status 404 (Not Found)
+     */
+    @GetMapping(&quot;/users/{login:&quot; + Constants.LOGIN_REGEX + &quot;}&quot;)
+    @Timed
+    public ResponseEntity&lt;UserDTO&gt; getUser(@PathVariable String login) {
+<span class="fc" id="L165">        log.debug(&quot;REST request to get User : {}&quot;, login);</span>
+<span class="fc" id="L166">        return ResponseUtil.wrapOrNotFound(</span>
+<span class="fc" id="L167">            userService.getUserWithAuthoritiesByLogin(login)</span>
+<span class="fc" id="L168">                .map(UserDTO::new));</span>
+    }
+
+    /**
+     * DELETE /users/:login : delete the &quot;login&quot; User.
+     *
+     * @param login the login of the user to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping(&quot;/users/{login:&quot; + Constants.LOGIN_REGEX + &quot;}&quot;)
+    @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
+    public ResponseEntity&lt;Void&gt; deleteUser(@PathVariable String login) {
+<span class="fc" id="L181">        log.debug(&quot;REST request to delete User: {}&quot;, login);</span>
+<span class="fc" id="L182">        userService.deleteUser(login);</span>
+<span class="fc" id="L183">        return ResponseEntity.ok().headers(HeaderUtil.createAlert( &quot;A user is deleted with identifier &quot; + login, login)).build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

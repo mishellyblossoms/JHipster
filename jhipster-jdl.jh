@@ -1,0 +1,26 @@
+entity Student {
+	name String,
+    sid Integer
+}
+
+entity Professor {
+    name String,
+    id Integer
+}
+
+
+entity College {
+	name String,
+	address String
+}
+
+relationship OneToMany {
+	College{enrolls} to Student
+}
+relationship OneToMany {
+	College{has} to Professor
+}
+
+
+
+

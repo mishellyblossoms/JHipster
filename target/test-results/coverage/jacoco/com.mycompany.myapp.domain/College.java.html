@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>College.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.myapp.domain</a> &gt; <span class="el_source">College.java</span></div><h1>College.java</h1><pre class="source lang-java linenums">package com.mycompany.myapp.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
+
+/**
+ * A College.
+ */
+@Entity
+@Table(name = &quot;college&quot;)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+<span class="fc" id="L19">public class College implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;name&quot;)
+    private String name;
+
+    @Column(name = &quot;address&quot;)
+    private String address;
+
+<span class="fc" id="L33">    @OneToMany(mappedBy = &quot;college&quot;)</span>
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set&lt;Student&gt; enrolls = new HashSet&lt;&gt;();
+
+<span class="fc" id="L38">    @OneToMany(mappedBy = &quot;college&quot;)</span>
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set&lt;Professor&gt; have = new HashSet&lt;&gt;();
+
+    public Long getId() {
+<span class="fc" id="L44">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L48">        this.id = id;</span>
+<span class="fc" id="L49">    }</span>
+
+    public String getName() {
+<span class="fc" id="L52">        return name;</span>
+    }
+
+    public College name(String name) {
+<span class="fc" id="L56">        this.name = name;</span>
+<span class="fc" id="L57">        return this;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L61">        this.name = name;</span>
+<span class="fc" id="L62">    }</span>
+
+    public String getAddress() {
+<span class="fc" id="L65">        return address;</span>
+    }
+
+    public College address(String address) {
+<span class="fc" id="L69">        this.address = address;</span>
+<span class="fc" id="L70">        return this;</span>
+    }
+
+    public void setAddress(String address) {
+<span class="fc" id="L74">        this.address = address;</span>
+<span class="fc" id="L75">    }</span>
+
+    public Set&lt;Student&gt; getEnrolls() {
+<span class="nc" id="L78">        return enrolls;</span>
+    }
+
+    public College enrolls(Set&lt;Student&gt; students) {
+<span class="nc" id="L82">        this.enrolls = students;</span>
+<span class="nc" id="L83">        return this;</span>
+    }
+
+    public College addEnrolls(Student student) {
+<span class="nc" id="L87">        this.enrolls.add(student);</span>
+<span class="nc" id="L88">        student.setCollege(this);</span>
+<span class="nc" id="L89">        return this;</span>
+    }
+
+    public College removeEnrolls(Student student) {
+<span class="nc" id="L93">        this.enrolls.remove(student);</span>
+<span class="nc" id="L94">        student.setCollege(null);</span>
+<span class="nc" id="L95">        return this;</span>
+    }
+
+    public void setEnrolls(Set&lt;Student&gt; students) {
+<span class="nc" id="L99">        this.enrolls = students;</span>
+<span class="nc" id="L100">    }</span>
+
+    public Set&lt;Professor&gt; getHave() {
+<span class="nc" id="L103">        return have;</span>
+    }
+
+    public College have(Set&lt;Professor&gt; professors) {
+<span class="nc" id="L107">        this.have = professors;</span>
+<span class="nc" id="L108">        return this;</span>
+    }
+
+    public College addHas(Professor professor) {
+<span class="nc" id="L112">        this.have.add(professor);</span>
+<span class="nc" id="L113">        professor.setCollege(this);</span>
+<span class="nc" id="L114">        return this;</span>
+    }
+
+    public College removeHas(Professor professor) {
+<span class="nc" id="L118">        this.have.remove(professor);</span>
+<span class="nc" id="L119">        professor.setCollege(null);</span>
+<span class="nc" id="L120">        return this;</span>
+    }
+
+    public void setHave(Set&lt;Professor&gt; professors) {
+<span class="nc" id="L124">        this.have = professors;</span>
+<span class="nc" id="L125">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (this == o) {</span>
+<span class="fc" id="L130">            return true;</span>
+        }
+<span class="pc bpc" id="L132" title="1 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="fc" id="L133">            return false;</span>
+        }
+<span class="fc" id="L135">        College college = (College) o;</span>
+<span class="pc bpc" id="L136" title="3 of 4 branches missed.">        if (college.id == null || id == null) {</span>
+<span class="fc" id="L137">            return false;</span>
+        }
+<span class="nc" id="L139">        return Objects.equals(id, college.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L144">        return Objects.hashCode(id);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L149">        return &quot;College{&quot; +</span>
+            &quot;id=&quot; + id +
+            &quot;, name='&quot; + name + &quot;'&quot; +
+            &quot;, address='&quot; + address + &quot;'&quot; +
+            '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

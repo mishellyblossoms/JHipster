@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.mycompany.myapp.repository.CustomSocialUsersConnectionRepositoryIntTest
+-------------------------------------------------------------------------------
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 42.931 sec - in com.mycompany.myapp.repository.CustomSocialUsersConnectionRepositoryIntTest

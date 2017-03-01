@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomSignInAdapter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.myapp.security.social</a> &gt; <span class="el_source">CustomSignInAdapter.java</span></div><h1>CustomSignInAdapter.java</h1><pre class="source lang-java linenums">package com.mycompany.myapp.security.social;
+
+import io.github.jhipster.config.JHipsterProperties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.web.SignInAdapter;
+import org.springframework.web.context.request.NativeWebRequest;
+
+public class CustomSignInAdapter implements SignInAdapter {
+
+<span class="fc" id="L19">    @SuppressWarnings(&quot;unused&quot;)</span>
+<span class="fc" id="L20">    private final Logger log = LoggerFactory.getLogger(CustomSignInAdapter.class);</span>
+
+    private final UserDetailsService userDetailsService;
+
+    private final JHipsterProperties jHipsterProperties;
+
+<span class="fc" id="L26">    public CustomSignInAdapter(UserDetailsService userDetailsService, JHipsterProperties jHipsterProperties) {</span>
+<span class="fc" id="L27">        this.userDetailsService = userDetailsService;</span>
+<span class="fc" id="L28">        this.jHipsterProperties = jHipsterProperties;</span>
+<span class="fc" id="L29">    }</span>
+    @Override
+    public String signIn(String userId, Connection&lt;?&gt; connection, NativeWebRequest request) {
+<span class="nc" id="L32">        UserDetails user = userDetailsService.loadUserByUsername(userId);</span>
+<span class="nc" id="L33">        Authentication newAuth = new UsernamePasswordAuthenticationToken(</span>
+            user,
+            null,
+<span class="nc" id="L36">            user.getAuthorities());</span>
+<span class="nc" id="L37">        SecurityContextHolder.getContext().setAuthentication(newAuth);</span>
+<span class="nc" id="L38">        return jHipsterProperties.getSocial().getRedirectAfterSignIn();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
